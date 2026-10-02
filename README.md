@@ -1,149 +1,146 @@
-🚀 ServiceFlow
+<h1 align="center">
+  🚀 ServiceFlow
+</h1>
 
-Sistema de gerenciamento de chamados desenvolvido com Java + Spring Boot no backend e Next.js + React + TypeScript no frontend.
+<p align="center">
+  <strong>Sistema inteligente e centralizado para gerenciamento e acompanhamento de chamados.</strong>
+</p>
 
-O ServiceFlow tem como objetivo centralizar a criação, acompanhamento e gerenciamento de chamados, permitindo que usuários registrem solicitações e que a aplicação processe essas informações por meio de uma API REST.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk" alt="Java 21" />
+  <img src="https://img.shields.io/badge/Spring_Boot-4.1.1-6DB33F?style=for-the-badge&logo=springboot" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" />
+</p>
 
-📋 Sobre o projeto
+---
 
-O projeto é dividido em duas aplicações principais:
+## 📋 Sobre o Projeto
 
-Backend: API REST responsável pelo gerenciamento dos chamados.
+O **ServiceFlow** tem como objetivo centralizar a criação, o acompanhamento e o gerenciamento de solicitações de suporte/chamados. Ele permite que usuários registrem chamados enquanto o sistema processa e organiza os dados via API REST.
 
-Frontend: Interface web utilizada para interação com o sistema.
+O projeto é estruturado em arquitetura **Monorepo / Multi-módulo**:
 
+* ⚙️ **Backend:** API REST responsável por regras de negócio e persistência de dados.
+* 🎨 **Frontend:** Interface web moderna e reativa para interação final do usuário.
+
+```
 ServiceFlow/
-├── backend/
-└── frontend/
+├── 📂 backend/      # Aplicação Java + Spring Boot
+└── 📂 frontend/     # Aplicação Next.js + React + TypeScript
+```
 
-🛠️ Tecnologias
-Backend
+---
 
-Java 21
+## 🛠️ Tecnologias Utilizadas
 
-Spring Boot
+### ☕ Backend
+* **Linguagem:** Java 21
+* **Framework:** Spring Boot (Spring Web MVC)
+* **Gerenciador de Dependências:** Maven
+* **Utilitários:** Lombok
+* **Documentação:** SpringDoc OpenAPI / Swagger UI
 
-Spring Web MVC
+### ⚛️ Frontend
+* **Framework:** Next.js 16 (App Router)
+* **Biblioteca UI:** React 19
+* **Linguagem:** TypeScript
+* **Estilização:** Tailwind CSS 4
+* **Qualidade de Código:** ESLint
 
-Maven
+---
 
-Lombok
+## 📁 Estrutura de Diretórios
 
-SpringDoc OpenAPI / Swagger
-
-O backend utiliza Spring Boot e Java 21. A configuração do projeto pode ser encontrada no pom.xml. {"fallbackMarkdown":"(GitHub
-)","reference":{"matched_text":"","prefix":null,"start_idx":1289,"end_idx":1306,"safe_urls":["https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/backend/pom.xml"],"refs":[],"alt":"(GitHub
-)","prompt_text":null,"type":"grouped_webpages","fallback_items":null,"error":null,"status":"done","items":[{"title":"","url":"https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/backend/pom.xml","attribution":"GitHub","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":[],"refs":[{"turn_index":2,"ref_type":"view","ref_index":0}],"hue":null,"attributions":null}],"style":null},"showLoginRequiredCard":false}
-
-Frontend
-
-Next.js 16
-
-React 19
-
-TypeScript
-
-Tailwind CSS 4
-
-ESLint
-
-O frontend utiliza Next.js como framework principal e React para construção da interface. {"fallbackMarkdown":"(GitHub
-)","reference":{"matched_text":"","prefix":null,"start_idx":1476,"end_idx":1493,"safe_urls":["https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/frontend/package.json"],"refs":[],"alt":"(GitHub
-)","prompt_text":null,"type":"grouped_webpages","fallback_items":null,"error":null,"status":"done","items":[{"title":"","url":"https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/frontend/package.json","attribution":"GitHub","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":[],"refs":[{"turn_index":2,"ref_type":"view","ref_index":1}],"hue":null,"attributions":null}],"style":null},"showLoginRequiredCard":false}
-
-📁 Estrutura do projeto
+```text
 ServiceFlow/
 │
-├── backend/
-│   ├── src/
-│   │   └── main/
-│   │       └── java/
-│   │           └── com/
-│   │               └── colonia/
-│   │
-│   └── pom.xml
+├── 📂 backend/
+│   ├── 📂 src/
+│   │   └── 📂 main/
+│   │       └── 📂 java/com/colonia/backend/
+│   │           ├── 📂 Controller/
+│   │           ├── 📂 Service/
+│   │           └── 📂 Database/Entitty/
+│   └── 📄 pom.xml
 │
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   ├── next.config.ts
-│   └── tsconfig.json
+├── 📂 frontend/
+│   ├── 📂 src/
+│   ├── 📂 public/
+│   ├── 📄 package.json
+│   ├── 📄 next.config.ts
+│   └── 📄 tsconfig.json
 │
-└── README.md
+└── 📄 README.md
+```
 
-⚙️ Pré-requisitos
+---
 
-Antes de executar o projeto, certifique-se de ter instalado:
+## ⚙️ Pré-requisitos
 
-Java 21
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
-Maven
+* [JDK 21](https://www.oracle.com/java/technologies/downloads/#java21)
+* [Apache Maven](https://maven.apache.org/) *(ou utilize o wrapper `./mvnw` incluso)*
+* [Node.js](https://nodejs.org/) (versão LTS recomendada)
+* [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+* IDE de sua preferência (VS Code, IntelliJ IDEA, Eclipse)
 
-Node.js
+---
 
-npm
+## 🚀 Executando o Projeto
 
-Também é recomendado utilizar uma IDE como IntelliJ IDEA, Eclipse ou VS Code.
+### 1. Backend (Spring Boot)
 
-🚀 Executando o Backend
-
-Entre no diretório do backend:
-
+Navegue até a pasta do backend:
+```bash
 cd backend
+```
 
-
-Execute a aplicação utilizando Maven:
-
+Execute a aplicação:
+```bash
+# Utilizando Maven instalado
 mvn spring-boot:run
 
-
-Ou, caso esteja utilizando o Maven Wrapper:
-
+# Ou utilizando Maven Wrapper (Linux/Mac)
 ./mvnw spring-boot:run
 
+# Ou no Windows (PowerShell/CMD)
+.\mvnw.cmd spring-boot:run
+```
+> 📍 A API estará disponível em `http://localhost:8080` (ou na porta configurada).
 
-No Windows:
+---
 
-mvnw.cmd spring-boot:run
+### 2. Frontend (Next.js)
 
-
-Após iniciar, a API estará disponível no endereço configurado pela aplicação.
-
-💻 Executando o Frontend
-
-Entre no diretório do frontend:
-
+Em um novo terminal, navegue até a pasta do frontend:
+```bash
 cd frontend
-
+```
 
 Instale as dependências:
-
+```bash
 npm install
+```
 
-
-Execute o servidor de desenvolvimento:
-
+Inicie o servidor de desenvolvimento:
+```bash
 npm run dev
+```
+> 📍 A interface estará acessível em `http://localhost:3000`.
 
+---
 
-O Next.js disponibilizará a aplicação no endereço indicado no terminal, normalmente:
+## 📡 Endpoints da API
 
-http://localhost:3000
+### 🔹 Criar Chamado
+`POST /chamados`
 
-📡 API
-
-O backend disponibiliza endpoints REST para gerenciamento dos chamados.
-
-Criar chamado
-
-POST
-
-/chamados
-
-
-Exemplo de requisição:
-
+**Exemplo de Payload:**
+```json
 {
   "titulo": "Chamado Inicial",
   "nome": "Gabriel",
@@ -153,10 +150,10 @@ Exemplo de requisição:
   "dataAtualizacao": "2026-10-02T14:30:00",
   "autorChamado": "Jean"
 }
+```
 
-
-Exemplo utilizando fetch:
-
+**Exemplo de Requisição (Fetch API):**
+```javascript
 fetch("http://localhost:8080/chamados", {
   method: "POST",
   headers: {
@@ -172,149 +169,90 @@ fetch("http://localhost:8080/chamados", {
     autorChamado: "Jean"
   })
 });
+```
 
+---
 
-Ajuste a URL e a porta de acordo com a configuração utilizada no ambiente.
+## 🌐 Configuração de CORS
 
-🌐 CORS
+Se o frontend e o backend estiverem rodando em máquinas ou portas distintas na mesma rede local, certifique-se de liberar a origem no Spring Boot:
 
-Para permitir que o frontend faça requisições para o backend, o projeto possui configuração de CORS.
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://172.30.1.170:8082", "http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
+    }
+}
+```
 
-Em ambiente de desenvolvimento, caso frontend e backend estejam sendo executados em máquinas diferentes na mesma rede, a origem do frontend deve ser adicionada à configuração de CORS.
+---
 
-Exemplo:
+## 📖 Documentação Interativa (Swagger)
 
-registry.addMapping("/**")
-        .allowedOrigins("http://172.30.1.170:8082")
-        .allowedMethods(
-            "GET",
-            "POST",
-            "PUT",
-            "DELETE",
-            "OPTIONS"
-        )
-        .allowedHeaders("*");
+A API conta com documentação interativa gerada automaticamente via SpringDoc OpenAPI.
 
+Com o backend em execução, acesse no navegador:
+👉 `http://localhost:8080/swagger-ui/index.html`
 
-A origem deve incluir o protocolo (http:// ou https://).
+---
 
-📖 Documentação da API
+## 🔄 Fluxo de Comunicação
 
-O backend possui integração com SpringDoc OpenAPI, permitindo disponibilizar documentação interativa da API através do Swagger UI. {"fallbackMarkdown":"(GitHub
-)","reference":{"matched_text":"","prefix":null,"start_idx":4528,"end_idx":4545,"safe_urls":["https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/backend/pom.xml"],"refs":[],"alt":"(GitHub
-)","prompt_text":null,"type":"grouped_webpages","fallback_items":null,"error":null,"status":"done","items":[{"title":"","url":"https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/backend/pom.xml","attribution":"GitHub","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":[],"refs":[{"turn_index":2,"ref_type":"view","ref_index":0}],"hue":null,"attributions":null}],"style":null},"showLoginRequiredCard":false}
+```text
+┌─────────────────┐                 ┌─────────────────┐
+│                 │   HTTP / REST   │                 │
+│   Frontend      ├────────────────►│    Backend      │
+│   (Next.js)     │                 │  (Spring Boot)  │
+│                 │◄────────────────┤                 │
+└─────────────────┘  JSON Response  └────────┬────────┘
+                                             │
+                                             ▼
+                                    ┌─────────────────┐
+                                    │    Chamados     │
+                                    │   (/chamados)   │
+                                    └─────────────────┘
+```
 
-Com a aplicação em execução, a documentação pode ser acessada normalmente através de:
+---
 
-http://localhost:8080/swagger-ui/index.html
+## 📦 Scripts Disponíveis (Frontend)
 
+| Comando | Descrição |
+| :--- | :--- |
+| `npm run dev` | Inicia o servidor de desenvolvimento do Next.js |
+| `npm run build` | Compila o projeto para produção |
+| `npm start` | Executa a versão compilada de produção |
+| `npm run lint` | Roda a verificação de regras de código com ESLint |
 
-A porta pode variar conforme a configuração da aplicação.
+---
 
-🔄 Fluxo da aplicação
-┌──────────────┐
-│   Frontend   │
-│   Next.js    │
-└──────┬───────┘
-       │
-       │ HTTP / REST
-       ▼
-┌──────────────┐
-│   Backend    │
-│ Spring Boot  │
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│   Chamados   │
-│   /chamados  │
-└──────────────┘
+## 📦 Build do Backend
 
-🧪 Scripts do Frontend
+Para gerar o arquivo `.jar` executável do backend:
 
-O frontend possui os seguintes scripts:
-
-npm run dev
-
-
-Executa o ambiente de desenvolvimento.
-
-npm run build
-
-
-Gera a versão de produção da aplicação.
-
-npm start
-
-
-Inicia a aplicação Next.js em modo de produção.
-
-npm run lint
-
-
-Executa a análise de código utilizando ESLint.
-
-Esses scripts estão definidos no package.json do frontend. {"fallbackMarkdown":"(GitHub
-)","reference":{"matched_text":"","prefix":null,"start_idx":5458,"end_idx":5475,"safe_urls":["https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/frontend/package.json"],"refs":[],"alt":"(GitHub
-)","prompt_text":null,"type":"grouped_webpages","fallback_items":null,"error":null,"status":"done","items":[{"title":"","url":"https://raw.githubusercontent.com/jeanbrito-dev/ServiceFlow/main/frontend/package.json","attribution":"GitHub","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":[],"refs":[{"turn_index":2,"ref_type":"view","ref_index":1}],"hue":null,"attributions":null}],"style":null},"showLoginRequiredCard":false}
-
-📦 Build do Backend
-
-Para gerar o build do backend:
-
+```bash
 cd backend
 mvn clean package
+```
+O artefato gerado estará localizado no diretório `/backend/target/`.
 
+---
 
-O artefato gerado poderá ser encontrado no diretório:
+## 📌 Status do Projeto
 
-backend/target/
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow?style=for-the-badge" alt="Em Desenvolvimento" />
+</p>
 
-🔐 Configuração para ambiente de rede
+Novas funcionalidades, regras de validação e persistência em banco de dados serão adicionadas em breve.
 
-Caso o backend precise ser acessado por outros computadores da mesma rede, não utilize localhost no frontend.
+---
 
-Por exemplo, se o backend estiver hospedado no computador:
+## 👨‍💻 Autores
 
-172.30.1.170
-
-
-e estiver utilizando a porta 8080, o frontend deverá fazer as requisições para:
-
-http://172.30.1.170:8080
-
-
-e não:
-
-http://localhost:8080
-
-
-Isso ocorre porque localhost sempre representa a própria máquina que está executando o navegador.
-
-👨‍💻 Desenvolvimento
-
-Para iniciar o projeto completo:
-
-Terminal 1 — Backend
-cd backend
-mvn spring-boot:run
-
-Terminal 2 — Frontend
-cd frontend
-npm install
-npm run dev
-
-
-Depois, acesse a aplicação pelo endereço exibido pelo Next.js.
-
-📌 Status
-
-🚧 Projeto em desenvolvimento.
-
-Novas funcionalidades e melhorias podem ser adicionadas conforme a evolução do sistema.
-
-📄 Licença
-
-Este projeto não possui uma licença de software definida no momento.
-
-Desenvolvido para o projeto ServiceFlow.
+Desenvolvido com 💚 para o ecossistema **ServiceFlow**.

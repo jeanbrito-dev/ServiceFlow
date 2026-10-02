@@ -1,8 +1,6 @@
-package com.colonia.backend.Database.Entitty;
+package com.colonia.backend.Dto;
 
 import lombok.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChamadoEntity {
-
-    private Integer id;
+public class ChamadoDto {
     private String titulo;
     private String nome;
     private String descricao;

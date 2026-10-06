@@ -32,6 +32,20 @@ public class ChamadoController {
         return chamadoService.createCalled(dto);
     }
 
+    @PutMapping("/chamados/{id}")
+    public ResponseEntity<ChamadoEntity> editCalled(@PathVariable int id, @RequestBody ChamadoDto dto) {
+        return chamadoService.editCalled(id, dto);
+    }
+
+    @DeleteMapping("/chamados/{id}")
+    public ResponseEntity<ChamadoEntity> deleteById(@PathVariable int id) {
+        return chamadoService.deleteById(id);
+    }
+
+    @GetMapping("/resolver-chamado")
+    public ResponseEntity<ChamadoEntity> resolverChamado(@RequestParam int  id) {
+        return chamadoService.resolverChamado(id);
+    }
 
 
 

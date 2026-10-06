@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -18,7 +19,7 @@ public class ChamadoController {
     private final ChamadoService chamadoService;
 
     @GetMapping("/chamados")
-    public ResponseEntity<ArrayList<ChamadoEntity>> findAll() {
+    public ResponseEntity<List<ChamadoEntity>> findAll() {
         return chamadoService.findAll();
     }
 
@@ -38,12 +39,12 @@ public class ChamadoController {
     }
 
     @DeleteMapping("/chamados/{id}")
-    public ResponseEntity<ChamadoEntity> deleteById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteById(@PathVariable int id) {
         return chamadoService.deleteById(id);
     }
 
-    @GetMapping("/resolver-chamado")
-    public ResponseEntity<ChamadoEntity> resolverChamado(@RequestParam int  id) {
+    @GetMapping("/resolver-chamado/{id}")
+    public ResponseEntity<ChamadoEntity> resolverChamado(@PathVariable int  id) {
         return chamadoService.resolverChamado(id);
     }
 

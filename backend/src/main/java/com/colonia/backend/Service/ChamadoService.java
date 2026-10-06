@@ -3,6 +3,7 @@ package com.colonia.backend.Service;
 import com.colonia.backend.Database.Entitty.ChamadoEntity;
 import com.colonia.backend.Dto.ChamadoDto;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class ChamadoService {
@@ -51,7 +53,39 @@ public class ChamadoService {
     return new ResponseEntity<>(chamado,HttpStatusCode.valueOf(201));
     }
 
+    public ResponseEntity<ChamadoEntity> editCalled(int id, ChamadoDto dto) {
+        ChamadoEntity chamado = CHAMADOS.stream().filter(target ->target.getId().equals(id)).findFirst().orElse(null);
+        if (chamado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        chamado.setTitulo(dto.getTitulo());
+        chamado.setNome(dto.getNome());
+        chamado.setDescricao(dto.getDescricao());
+        chamado.setDataCriacao(dto.getDataCriacao());
+        chamado.setStatus(dto.getStatus());
+        chamado.setDataAtualizacao(dto.getDataAtualizacao());
+        chamado.setAutorChamado(dto.getAutorChamado());
+        return new ResponseEntity<>(chamado,HttpStatusCode.valueOf(200));
 
+    }
 
+    public ResponseEntity<ChamadoEntity> deleteById(int id) {
+        ChamadoEntity chamado = CHAMADOS.stream().filter(call -> call.getId().equals(id)).findFirst().orElse(null);
+        if (chamado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        CHAMADOS.remove(chamado);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(204));
+    }
+
+    public ResponseEntity<ChamadoEntity> resolverChamado(int id) {
+        ChamadoEntity chamado = CHAMADOS.stream().filter(call -> call.getId().equals(id)).findFirst().orElse(null);
+        if (chamado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        chamado.setStatus("Resolvido!");
+        chamado.setDataAtualizacao(LocalDateTime.now());
+        return new ResponseEntity<>(chamado,HttpStatusCode.valueOf(200));
+    }
 
 }

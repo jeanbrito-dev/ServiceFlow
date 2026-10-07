@@ -65,7 +65,7 @@ O repositório é organizado como um **monorepo simples**, com dois módulos ind
 
 No estado atual, o backend possui uma implementação de CRUD para chamados e uma operação específica para marcar um chamado como resolvido. O armazenamento é propositalmente simples: uma lista estática em memória inicializada com um chamado de exemplo.
 
-O frontend, por sua vez, possui uma tela inicial, uma tela de login baseada em `localStorage` e um dashboard que consulta a API para exibir chamados pendentes.
+O frontend, por sua vez, possui uma tela inicial, uma tela de login baseada em `localStorage`, uma página de cadastro, um dashboard que consulta a API para exibir chamados pendentes, uma camada centralizada para as chamadas à API e uma pasta compartilhada para definição de tipos e interfaces utilizadas em diferentes partes da aplicação.
 
 ### 🎯 Objetivo do sistema
 
@@ -73,19 +73,19 @@ O fluxo principal é:
 
 ```text
 Usuário
-   │
-   ├── Acessa o frontend
-   │
-   ├── Realiza o login local
-   │
-   └── Abre o dashboard
-            │
-            │ HTTP/JSON
-            ▼
-     API Spring Boot
-            │
-            ▼
-   Lista de chamados em memória
+  │
+  ├── Acessa o frontend
+  │
+  ├── Realiza o login ou cadastro
+  │
+  └── Abre o dashboard
+           │
+           │ HTTP/JSON
+           ▼
+    API Spring Boot
+           │
+           ▼
+  Lista de chamados em memória
 ```
 
 ---
@@ -100,12 +100,15 @@ Usuário
 - ✅ **Resolução de chamados**, atualizando status e data de atualização.
 - 📊 **Dashboard web** com separação visual entre chamados pendentes e área de chamados do usuário.
 - 🔐 **Fluxo de login local** usando `localStorage` para controlar o estado de acesso da interface.
+- 👤 **Página de cadastro** adicionada ao frontend para entrada de novos usuários.
+- 🌐 **Centralização das chamadas à API** por meio de `frontend/service/api.ts`.
+- 🧩 **Interfaces e tipos compartilhados** organizados em `frontend/types/`, evitando a repetição de definições como a interface `Chamado`.
 - 🧪 **Teste de contexto do Spring Boot** incluído no backend.
 - 🧩 **API desacoplada do frontend**, permitindo consumo por outros clientes HTTP.
 - 📖 **Documentação interativa com Swagger/OpenAPI** no backend.
 - 🎨 **Interface estilizada com Tailwind CSS 4**.
 
-> O frontend atual está concentrado principalmente na leitura de chamados pendentes. Os endpoints de criação, edição, exclusão e resolução já existem no backend, mas ainda não estão completamente integrados à interface web.
+> O frontend atual está concentrado principalmente na leitura de chamados. Os endpoints de criação, edição, exclusão e resolução já existem no backend, mas ainda não estão completamente integrados à interface web.
 
 ---
 
@@ -147,11 +150,11 @@ A implementação atual segue uma separação básica de responsabilidades:
 
 ```text
 Controller
-   │
-   ▼
+  │
+  ▼
 Service
-   │
-   ▼
+  │
+  ▼
 Estado em memória (`ArrayList<ChamadoEntity>`)
 ```
 
@@ -161,6 +164,24 @@ Estado em memória (`ArrayList<ChamadoEntity>`)
 - **Entity/Model** — representa o chamado retornado pela API.
 
 Apesar do diretório se chamar `Database/Entitty`, `ChamadoEntity` **não é uma entidade JPA** no estado atual: não possui `@Entity`, `@Id` ou mapeamentos de persistência.
+
+### Organização do frontend
+
+O frontend passou a utilizar uma separação adicional para evitar repetição e concentrar responsabilidades:
+
+```text
+app/
+service/
+  └── api.ts
+types/
+  └── tipos compartilhados
+```
+
+- **`app/`** — concentra as páginas e rotas da aplicação utilizando o App Router do Next.js.
+- **`service/api.ts`** — centraliza as chamadas HTTP realizadas pelo frontend para a API do backend, evitando que a lógica de comunicação fique repetida nas páginas.
+- **`types/`** — concentra interfaces e tipos compartilhados entre diferentes componentes e páginas, incluindo a definição utilizada para representar um `Chamado`.
+
+Essa organização permite que alterações na URL ou na forma de comunicação com a API sejam feitas de maneira mais centralizada e que interfaces utilizadas em diferentes partes da aplicação não precisem ser redefinidas individualmente.
 
 ---
 
@@ -226,6 +247,8 @@ ServiceFlow/
 │
 ├── frontend/
 │   ├── app/
+│   │   ├── cadastro/
+│   │   │   └── page.tsx
 │   │   ├── dashboard/
 │   │   │   └── page.tsx
 │   │   ├── login/
@@ -234,6 +257,10 @@ ServiceFlow/
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── public/
+│   ├── service/
+│   │   └── api.ts
+│   ├── types/
+│   │   └── tipos compartilhados
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── postcss.config.mjs
@@ -418,7 +445,7 @@ http://localhost:3000
 
 ## 🖥️ Uso da Aplicação
 
-O frontend atual possui três telas principais:
+O frontend atual possui quatro telas principais:
 
 ### Página inicial — `/`
 
@@ -437,21 +464,39 @@ A tela possui campos de e-mail e senha, porém o código atual **não valida as 
 
 Portanto, o login atual é um **mecanismo de demonstração de fluxo**, não um sistema de autenticação real.
 
+### Cadastro — `/cadastro`
+
+O frontend possui uma página específica para cadastro de usuários.
+
+A página foi adicionada para complementar o fluxo de entrada da aplicação, separando a criação de uma conta da tela de login.
+
+O cadastro ainda faz parte do fluxo inicial do frontend e não representa uma autenticação persistida e validada pelo backend enquanto não houver uma implementação de usuários e autenticação no servidor.
+
 ### Dashboard — `/dashboard`
 
-Ao carregar a tela, o frontend executa:
+Ao carregar a tela, o frontend consulta a API para obter os chamados disponíveis.
+
+A comunicação com o backend é centralizada em:
 
 ```text
-GET ${NEXT_PUBLIC_API_URL}/chamados
+frontend/service/api.ts
 ```
 
-Com a configuração padrão:
-
-```text
-GET http://localhost:8082/api/chamados
-```
+A utilização de uma camada de serviço evita que cada página precise implementar diretamente a construção das requisições HTTP.
 
 Os chamados recebidos são armazenados no estado React e os que possuem `status === "Pendente"` são exibidos na seção **Chamados em aberto**.
+
+### Tipos compartilhados
+
+As interfaces utilizadas pelo frontend foram organizadas na pasta:
+
+```text
+frontend/types/
+```
+
+Entre elas está a definição de `Chamado`, utilizada para tipar os dados recebidos da API e evitar a duplicação da mesma interface em diferentes páginas ou componentes.
+
+Essa organização facilita a manutenção porque uma alteração na estrutura de um chamado pode ser refletida em um único tipo compartilhado.
 
 ---
 
@@ -707,12 +752,15 @@ O projeto apresenta uma base funcional, mas ainda possui características de pro
 - 💾 **Persistência em memória:** reiniciar o backend apaga os chamados criados durante a execução.
 - 🔐 **Autenticação simulada:** o login usa `localStorage` e não valida e-mail ou senha no backend.
 - 🛡️ **Sem autorização:** não há Spring Security, JWT, sessão de servidor ou controle de permissões.
-- ✅ **Sem validação de entrada:** os DTOs não utilizam Bean Validation (`@NotNull`, `@Size`, etc.).
+- 👤 **Cadastro ainda não integrado a uma autenticação real:** a página de cadastro existe no frontend, mas ainda não representa um sistema completo de criação e persistência de usuários no backend.
+- 🛡️ **Sem validação de entrada:** os DTOs não utilizam Bean Validation (`@NotNull`, `@Size`, etc.).
 - ❗ **Tratamento de erros simplificado:** a busca por ID inexistente ainda retorna `200` com `null`.
 - 🌐 **CORS não configurado por padrão:** pode exigir ajuste para comunicação entre `localhost:3000` e `localhost:8082`.
 - 🔄 **Integração parcial do frontend:** atualmente o dashboard faz leitura dos chamados; as operações completas de CRUD ainda não estão conectadas à UI.
 - 🗃️ **Sem banco de dados:** o pacote chamado `Database/Entitty` é apenas organizacional; não existe persistência JPA no código atual.
 - 🚪 **Sem proteção de rota real:** não há um guard de rota ou validação de sessão no backend impedindo o acesso direto a `/dashboard`.
+- 🧩 **Camada de API centralizada:** as chamadas HTTP do frontend foram concentradas em `service/api.ts`, mas a integração completa das operações do CRUD com a interface ainda está em evolução.
+- 📦 **Tipos compartilhados em evolução:** a pasta `types/` centraliza interfaces reutilizadas, reduzindo duplicações, mas a organização dos tipos poderá crescer conforme novas entidades forem adicionadas ao sistema.
 
 Essas limitações também ajudam a definir o roadmap natural do projeto: persistência relacional, autenticação real, autorização por perfil, validação, tratamento global de exceções e integração completa do CRUD no frontend.
 
@@ -803,7 +851,14 @@ Por isso, este README não atribui uma licença ao código sem autorização do 
 
 Desenvolvido por **Jean Brito e Gabriel Carmo**.
 
-<p align="center"> <a href="https://github.com/jeanbritodev"> <img src="https://img.shields.io/badge/Jean%20Brito-GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Jean Brito no GitHub"> </a> <a href="https://github.com/iamytz"> <img src="https://img.shields.io/badge/Gabriel%20Carmo-GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Gabriel Carmo no GitHub"> </a> </p>
+<p align="center">
+  <a href="https://github.com/jeanbritodev">
+    <img src="https://img.shields.io/badge/Jean%20Brito-GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Jean Brito no GitHub">
+  </a>
+  <a href="https://github.com/iamytz">
+    <img src="https://img.shields.io/badge/Gabriel%20Carmo-GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Gabriel Carmo no GitHub">
+  </a>
+</p>
 
 **Repositório:** https://github.com/jeanbrito-dev/ServiceFlow
 

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const input =
     "w-full rounded-md border border-olive-300 px-4 py-3 text-lg outline-none focus:border-olive-600";
@@ -10,35 +9,25 @@ const input =
 const button =
     "rounded-md bg-olive-600 px-8 py-3 text-xl text-white hover:bg-olive-700 transition-colors";
 
-export default function Login() {
-    const [isLogged, setIsLogged] = useState(false);
-    const router = useRouter();
+export default function Register() {
+    const [registered, setRegistered] = useState(false);
 
-    useEffect(() => {
-        const logged = localStorage.getItem("isLogged");
-
-        if (logged === "true") {
-            setIsLogged(true);
-        }
-    }, []);
-
-    function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+    function handleRegister(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         localStorage.setItem("isLogged", "true");
-        setIsLogged(true);
-        router.push("/dashboard");
+        setRegistered(true);
     }
 
-    if (isLogged) {
+    if (registered) {
         return (
             <div className="flex min-h-screen flex-col items-center justify-center">
                 <h1 className="text-6xl text-olive-800">
-                    Login realizado
+                    Cadastro realizado
                 </h1>
 
-                <h2 className="text-2xl font-bold text-olive-500">
-                    Você já realizou o login
+                <h2 className="mt-2 text-2xl font-bold text-olive-500">
+                    Sua conta foi criada com sucesso
                 </h2>
 
                 <Link
@@ -58,13 +47,20 @@ export default function Login() {
             </h1>
 
             <h2 className="mt-2 text-2xl font-bold text-olive-500">
-                Login
+                Registro
             </h2>
 
             <form
-                onSubmit={handleLogin}
+                onSubmit={handleRegister}
                 className="mt-10 flex w-full max-w-md flex-col gap-5"
             >
+                <input
+                    type="text"
+                    placeholder="Nome"
+                    className={input}
+                    required
+                />
+
                 <input
                     type="email"
                     placeholder="E-mail"
@@ -79,19 +75,26 @@ export default function Login() {
                     required
                 />
 
+                <input
+                    type="password"
+                    placeholder="Confirmar senha"
+                    className={input}
+                    required
+                />
+
                 <button
                     type="submit"
                     className={button}
                 >
-                    Entrar
+                    Criar conta
                 </button>
             </form>
 
             <Link
-                href="/cadastro"
+                href="/login"
                 className="text-olive-600 hover:text-olive-800"
             >
-                Não possui uma conta? Cadastrar-se
+                Já possui uma conta?
             </Link>
         </div>
     );

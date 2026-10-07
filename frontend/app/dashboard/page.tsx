@@ -1,33 +1,20 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
-
-interface Chamado {
-    id: number;
-    titulo: string;
-    nome: string;
-    descricao: string;
-    dataCriacao: string;
-    status: string;
-    dataAtualizacao: string;
-    autorChamado: string;
-}
+import { getChamados } from "@/service/api";
+import { Chamado } from "@/types/chamado";
 
 export default function Dashboard() {
     const [chamados, setChamados] = useState<Chamado[]>([]);
 
     useEffect(() => {
-        async function getChamados() {
+        async function carregarChamados() {
             try {
-                const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/chamados`
-                );
+                const { data, status } = await getChamados();
 
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                if (status !== 200) {
+                    throw new Error(`Erro HTTP: ${status}`);
                 }
-
-                const data: Chamado[] = await response.json();
 
                 setChamados(data);
             } catch (error) {
@@ -35,13 +22,14 @@ export default function Dashboard() {
             }
         }
 
-        getChamados();
+        carregarChamados();
     }, []);
-
 
     return (
         <div className="flex flex-col p-10 min-h-screen">
-            <h1 className="text-3xl font-bold text-olive-500">Bem-vindo usuário!</h1>
+            <h1 className="text-3xl font-bold text-olive-500">
+                Bem-vindo usuário!
+            </h1>
 
             <div id="painel" className="flex mt-10 gap-5">
                 {/* Chamados em aberto */}
@@ -78,7 +66,8 @@ export default function Dashboard() {
                                         </p>
 
                                         <p className="mt-2 text-right text-emerald-500">
-                                            Criado em {data.toLocaleDateString("pt-BR")}
+                                            Criado em{" "}
+                                            {data.toLocaleDateString("pt-BR")}
                                         </p>
                                     </div>
                                 );
@@ -96,5 +85,5 @@ export default function Dashboard() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
